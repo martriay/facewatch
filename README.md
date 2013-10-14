@@ -1,6 +1,6 @@
 facewatch
 =========
-Control yourself on facebook: see how many times you enter and how much time do you spend inside.
+Control yourself on facebook: see how many times you enter and how much time do you spend on it.
 
 ![example](images/example.jpg)
 
