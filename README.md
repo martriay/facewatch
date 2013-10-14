@@ -10,3 +10,4 @@ To do
 * Show today's usage and daily average instead of accumulated usage time
 * Real time counter instead of update after last facebook tab is closed
 * Pause timer when no facebook tab is focused
+* Migrate to chrome.storage for sync purposes
