@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Facewatch",
+  "description": "Control how much time do you spend on facebook",
+  "version": "0.1",
+
+  "background": {
+    "scripts": ["facewatch.js"]
+  },
+
+  "permissions": [
+    "webNavigation", "tabs"
+  ],
+
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "facewatch.html"
+  }
+}
