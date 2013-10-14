@@ -1,7 +1,7 @@
 localStorage["facewatch_times"] = 0;
 localStorage["facewatch_sessions"] = 0;
 
-var counter = {
+var watcher = {
   
   initTime: 0,
   endTime: 0,
@@ -29,19 +29,18 @@ var counter = {
 
   now_: function() {
     return new Date().getTime(); 
-  },
-
+  }
 }
 
 chrome.webNavigation.onCompleted.addListener(function(e) {
   facebookTabs(function(tabs){
-    if (tabs.length == 1) counter.init();
+    if (tabs.length == 1) watcher.init();
   });
 }, {url: [{hostSuffix: 'facebook.com'}]});
 
 chrome.tabs.onRemoved.addListener(function(tabId) {
   facebookTabs(function(tabs){
-    if (tabs.length == 0) counter.exit();
+    if (tabs.length == 0) watcher.exit();
   });
 });
 

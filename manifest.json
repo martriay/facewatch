@@ -6,7 +6,7 @@
   "version": "0.1",
 
   "background": {
-    "scripts": ["facewatch.js"]
+    "scripts": ["js/facewatch.js"]
   },
 
   "permissions": [
@@ -14,7 +14,7 @@
   ],
 
   "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "facewatch.html"
+    "default_icon": "images/icon.png",
+    "default_popup": "html/facewatch.html"
   }
 }
