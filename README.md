@@ -11,6 +11,5 @@ Download!
 
 To do
 -----
-* Redesign popup
 * Real time counter instead of update after last facebook tab is closed
  Pause timer when no facebook tab is focused
