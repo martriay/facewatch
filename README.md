@@ -7,7 +7,7 @@ Control yourself on facebook: see how much time do you spend on it.
 Download!
 ---------
 
-[facewatch.crx](github.com/martriay/facewatch/raw/master/facewatch.crx)
+[facewatch.crx](://github.com/martriay/facewatch/raw/master/facewatch.crx)
 
 To do
 -----
