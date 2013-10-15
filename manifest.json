@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "Facewatch",
-  "description": "Control how much time do you spend on facebook",
+  "description": "Control how much time you spend on facebook",
   "version": "0.2",
 
   "background": {

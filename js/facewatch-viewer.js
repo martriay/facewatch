@@ -5,12 +5,12 @@ var s = 1000
   , y = d * 365.25
   ;
   
-function convert(ms) {
+function ms_js(ms) {
   return plural(ms, d, 'day')
-    || plural(ms, h, 'hour')
-    || plural(ms, m, 'minute')
-    || plural(ms, s, 'second')
-    || ms + ' ms';
+      || plural(ms, h, 'hour')
+      || plural(ms, m, 'minute')
+      || plural(ms, s, 'second')
+      || ms + ' ms';
 }
   
 function plural(ms, n, name) {
@@ -20,18 +20,18 @@ function plural(ms, n, name) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  chrome.runtime.sendMessage({"returnSessions": true}, function(r) {
-    var table = document.getElementById("sessions");
-    for ( i in r.sessions ) {
-      var row = document.createElement("tr")
-        , date = document.createElement("td")
-        , duration  = document.createElement("td")
+  chrome.runtime.sendMessage({}, function(r) {
+    var t = document.getElementById('fw');
+    for ( i in r.fw ) {
+      var rw = document.createElement('tr')
+        , date = document.createElement('td')
+        , waste  = document.createElement('td')
         ;
       date.innerHTML = i;
-      duration.innerHTML = convert(r.sessions[i]);
-      row.appendChild(date);
-      row.appendChild(duration);
-      table.insertBefore(row, table.childNodes[2]);
+      waste.innerHTML = ms_js(r.fw[i]);
+      rw.appendChild(date);
+      rw.appendChild(waste);
+      t.insertBefore(rw, t.childNodes[2]);
     }
   });
 });

@@ -4,33 +4,24 @@ var storage = chrome.storage.local
 
 var watcher = {
   
-  initTime: 0,
-  entered: false,
-  
-  init: function() {
-    if (this.entered) return;
-    this.initTime = this.now_();
-    this.entered = true;
+  start: function() {
+    if (this.on) return;
+    this.init = this.now_();
+    this.on = true;
   },
 
-  exit: function() {
-    if (!this.entered) return;
-    var day = this.initTime.getDate()
-      , month = this.initTime.getMonth() + 1
-      , year = this.initTime.getFullYear()
-      , today = day + "/" + month + "/" + year
+  stop: function() {
+    if (!this.on) return;
+    var d = this.init.getDate()
+      , m = this.init.getMonth() + 1
+      , y = this.init.getFullYear()
+      , today = d + '/' + m + '/' + y
       ;
 
-    if (!facewatch.sessions[today]) facewatch.sessions[today] = 0;
-    facewatch.sessions[today] += this.now_() - this.initTime;
+    if (!facewatch.fw[today]) facewatch.fw[today] = 0;
+    facewatch.fw[today] += this.now_() - this.init;
     storage.set(facewatch);
-    this.restart_();
-  },
-
-  restart_: function() {
-    this.initTime = 0;
-    this.endTime = 0;
-    this.entered = false;
+    this.on = false;
   },
 
   now_: function() {
@@ -38,32 +29,24 @@ var watcher = {
   }
 }
 
-// On init
+// init
+storage.get('fw', function(result) { facewatch = result; })
 
-storage.get('sessions', function(result) { facewatch = result; })
-
-// On install
-
+// install
 chrome.runtime.onInstalled.addListener(function(){
-  storage.set({"sessions": {}});
+  storage.set({'fw': {}});
 });
 
-// Behavior
-
-chrome.webNavigation.onCompleted.addListener(function(e) {
-  facebookTabs(function(tabs){
-    if (tabs.length == 1) watcher.init();
-  });
+// behavior
+chrome.webNavigation.onCompleted.addListener(function() {
+  facebookTabs(function(tabs){ if (tabs.length == 1) watcher.start(); });
 }, {url: [{hostSuffix: 'facebook.com'}]});
 
-chrome.tabs.onRemoved.addListener(function(tabId) {
-  facebookTabs(function(tabs){
-    if (tabs.length == 0) watcher.exit();
-  });
+chrome.tabs.onRemoved.addListener(function() {
+  facebookTabs(function(tabs){ if (tabs.length == 0) watcher.stop(); });
 });
 
-// Auxiliar
-
+// aux
 chrome.runtime.onMessage.addListener(function(r, s, sr) {
   sr(facewatch);
 });
