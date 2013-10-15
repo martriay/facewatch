@@ -19,7 +19,20 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById("times").innerHTML = localStorage["facewatch_times"];
-  document.getElementById("sessions").innerHTML = convert(localStorage["facewatch_sessions"]);
+document.addEventListener('DOMContentLoaded', function() {
+  chrome.runtime.sendMessage({"returnSessions": true}, function(r) {
+    var table = document.getElementById("sessions");
+    r.sessions.forEach(function(e){
+      var row = document.createElement("tr")
+        , date = document.createElement("td")
+        , duration  = document.createElement("td")
+        ;
+      date.innerHTML = e.init;
+      duration.innerHTML = convert(e.duration);
+      row.appendChild(date);
+      row.appendChild(duration);
+      table.insertBefore(row, table.childNodes[2]);
+    });
+  });
 });
+

@@ -1,23 +1,31 @@
-localStorage["facewatch_times"] = 0;
-localStorage["facewatch_sessions"] = 0;
+var storage = chrome.storage.local
+  , facewatch
+  ;
 
 var watcher = {
   
   initTime: 0,
-  endTime: 0,
   entered: false,
   
   init: function() {
     if (this.entered) return;
-    localStorage["facewatch_times"]++;
     this.initTime = this.now_();
     this.entered = true;
   },
 
   exit: function() {
     if (!this.entered) return;
-    this.endTime = this.now_();
-    localStorage["facewatch_sessions"]= +localStorage["facewatch_sessions"] + this.endTime - this.initTime;
+    var day = this.initTime.getDate()
+      , month = this.initTime.getMonth() + 1
+      , year = this.initTime.getFullYear()
+      ;
+
+    facewatch.sessions.push({
+      "init": day + "/" + month + "/" + year,
+      "duration": this.now_() - this.initTime
+    });
+
+    storage.set(facewatch);
     this.restart_();
   },
 
@@ -28,9 +36,21 @@ var watcher = {
   },
 
   now_: function() {
-    return new Date().getTime(); 
+    return new Date(); 
   }
 }
+
+// On init
+
+storage.get('sessions', function(result) { facewatch = result; })
+
+// On install
+
+chrome.runtime.onInstalled.addListener(function(){
+  storage.set({"sessions": []});
+});
+
+// Behavior
 
 chrome.webNavigation.onCompleted.addListener(function(e) {
   facebookTabs(function(tabs){
@@ -42,6 +62,12 @@ chrome.tabs.onRemoved.addListener(function(tabId) {
   facebookTabs(function(tabs){
     if (tabs.length == 0) watcher.exit();
   });
+});
+
+// Auxiliar
+
+chrome.runtime.onMessage.addListener(function(r, s, sr) {
+  sr(facewatch);
 });
 
 function facebookTabs(callback) {
