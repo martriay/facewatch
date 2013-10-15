@@ -12,4 +12,4 @@ Download!
 To do
 -----
 * Real time counter instead of update after last facebook tab is closed
- Pause timer when no facebook tab is focused
+* Pause timer when no facebook tab is focused
