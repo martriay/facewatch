@@ -18,13 +18,11 @@ var watcher = {
     var day = this.initTime.getDate()
       , month = this.initTime.getMonth() + 1
       , year = this.initTime.getFullYear()
+      , today = day + "/" + month + "/" + year
       ;
 
-    facewatch.sessions.push({
-      "init": day + "/" + month + "/" + year,
-      "duration": this.now_() - this.initTime
-    });
-
+    if (!facewatch.sessions[today]) facewatch.sessions[today] = 0;
+    facewatch.sessions[today] += this.now_() - this.initTime;
     storage.set(facewatch);
     this.restart_();
   },
@@ -47,7 +45,7 @@ storage.get('sessions', function(result) { facewatch = result; })
 // On install
 
 chrome.runtime.onInstalled.addListener(function(){
-  storage.set({"sessions": []});
+  storage.set({"sessions": {}});
 });
 
 // Behavior

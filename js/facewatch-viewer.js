@@ -22,17 +22,17 @@ function plural(ms, n, name) {
 document.addEventListener('DOMContentLoaded', function() {
   chrome.runtime.sendMessage({"returnSessions": true}, function(r) {
     var table = document.getElementById("sessions");
-    r.sessions.forEach(function(e){
+    for ( i in r.sessions ) {
       var row = document.createElement("tr")
         , date = document.createElement("td")
         , duration  = document.createElement("td")
         ;
-      date.innerHTML = e.init;
-      duration.innerHTML = convert(e.duration);
+      date.innerHTML = i;
+      duration.innerHTML = convert(r.sessions[i]);
       row.appendChild(date);
       row.appendChild(duration);
       table.insertBefore(row, table.childNodes[2]);
-    });
+    }
   });
 });
 
