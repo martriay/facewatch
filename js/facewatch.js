@@ -46,7 +46,7 @@ chrome.tabs.onRemoved.addListener(function() {
   facebookTabs(function(tabs){ if (tabs.length == 0) watcher.stop(); });
 });
 
-// aux
+// misc
 chrome.runtime.onMessage.addListener(function(r, s, sr) {
   sr(facewatch);
 });
