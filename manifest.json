@@ -3,7 +3,7 @@
 
   "name": "Facewatch",
   "description": "Control how much time you spend on facebook",
-  "version": "0.2",
+  "version": "0.3",
 
   "background": {
     "scripts": ["js/facewatch.js"]
