@@ -21,17 +21,38 @@ function plural(ms, n, name) {
 
 document.addEventListener('DOMContentLoaded', function() {
   chrome.runtime.sendMessage({}, function(r) {
-    var t = document.getElementById('fw');
-    for ( i in r.fw ) {
+    var t = document.getElementById('fw')
+      , dates = []
+      ;
+
+    for ( i in r.fw )
+      dates.push({date: i, waste: r.fw[i] });
+
+    dates.sort(function(a, b){
+      var x = a.date.split('/')
+        , y = b.date.split('/')
+        , i = 2
+        ;
+      
+      while (i >= 0) {
+        if (x[i] != y[i])
+          return +x[i] > +y[i] ? 1 : -1;
+        i--;
+      }
+    });
+
+    dates.forEach(function(e) {
       var rw = document.createElement('tr')
         , date = document.createElement('td')
         , waste  = document.createElement('td')
         ;
-      date.innerHTML = i;
-      waste.innerHTML = ms_js(r.fw[i]);
+
+      date.innerHTML = e.date;
+      waste.innerHTML = ms_js(e.waste);
       rw.appendChild(date);
       rw.appendChild(waste);
       t.insertBefore(rw, t.childNodes[2]);
-    }
+    });
+
   });
 });
