@@ -31,13 +31,11 @@ document.addEventListener('DOMContentLoaded', function() {
     dates.sort(function(a, b){
       var x = a.date.split('/')
         , y = b.date.split('/')
-        , i = 2
         ;
       
-      while (i >= 0) {
+      for (i = 2; i >= 0, i--) {
         if (x[i] != y[i])
           return +x[i] > +y[i] ? 1 : -1;
-        i--;
       }
     });
 
