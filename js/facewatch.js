@@ -57,13 +57,8 @@ chrome.tabs.onActivated.addListener(function(info) {
   })
 });
 
-chrome.tabs.onRemoved.addListener(function() {
-  checkTabs();
-});
-
-chrome.tabs.onUpdated.addListener(function (){
-  checkTabs();
-});
+chrome.tabs.onRemoved.addListener(checkTabs);
+chrome.tabs.onUpdated.addListener(checkTabs);
 
 chrome.runtime.onMessage.addListener(function(r, s, sr) {
   watcher.restart();
@@ -73,7 +68,7 @@ chrome.runtime.onMessage.addListener(function(r, s, sr) {
 // misc
 function checkTabs(){
   facebookTabs(function(tabs){
-    if (tabs.length == 0)
+    if (tabs.length === 0)
       watcher.stop();
   });
 }
